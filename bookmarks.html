@@ -6,9 +6,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Harry Potter Quiz - Bookmarks</title>
 
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script> </head>
 
+
+</head>
+
+<body class="app app--bookmarks">
+
+    <header class="app-header">
+        <img src="Gemini_harrypotter.png" alt="Harry Potter" width="300" height="300">
+        <br>
+
+        <h1>Bookmarked Questions</h1>
+
+
+    </header>
+
+    <br>>
+
+
+    <br>
+
+    <br>
+    <br>
+    <div class="add-question-form">
+        <div class="input-group">
+            <input type="text" id="newQuestion" placeholder="Add your own question...">
+            <button class="btn btn-add" onclick="addQuestion()">+ Add</button>
+        </div>
+    </div>
+    </div>
+
+    <div class="card">
+        <h2>My Bookmarks</h2>
+        <div class="question-list" id="bookmarkedQuestions">
+            <div class="empty-state">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <p>No bookmarks yet.<br>Click the bookmark button to save questions!</p>
+            </div>
+        </div>
+        <button class="btn btn-clear" onclick="clearAllBookmarks()" style="display: none;" id="clearBtn">Clear
+            All Bookmarks</button>
+    </div>
+    </div>
+    <br>
+
+
+
+
+
+
+
+
+
+
+
+    
 <body>
     <div class="container">
         <header id="pageTitle">Bookmarks</header>
