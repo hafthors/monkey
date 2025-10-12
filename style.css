@@ -42,6 +42,7 @@ body {
     color: var(--text-color);
     transition: background-color 0.3s, color 0.3s;
     min-height: 100vh;
+    background-color:blue;
 }
 
 .container {
@@ -266,3 +267,4 @@ body.dark-mode .toggle-circle {
     padding: 40px 0;
     font-size: 1.1em;
 }
+
