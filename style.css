@@ -1,3 +1,4 @@
+
 :root {
     /* Default (Light) theme variables */
     --background-color: #f0f0f0;
@@ -38,11 +39,10 @@ body {
     font-family: sans-serif;
     margin: 0;
     padding: 0;
-    background-color: blue;
+    background-color: var(--background-color);
     color: var(--text-color);
     transition: background-color 0.3s, color 0.3s;
     min-height: 100vh;
-    
 }
 
 .container {
@@ -92,7 +92,6 @@ body {
     font-size: 1.5em;
     filter: grayscale(100%); /* Default unbookmarked state */
     transition: filter 0.2s;
-    color: yellow;
 }
 
 .bookmark-icon.active {
@@ -100,7 +99,7 @@ body {
     color: var(--bookmark-active-color);
 }
 
-
+/* Question/Answer */
 .question {
     font-size: 1.2em;
     font-weight: bold;
@@ -111,7 +110,7 @@ body {
     margin-bottom: 15px;
 }
 
-
+/* Show Answer Button */
 .show-answer-btn {
     background-color: var(--button-background);
     color: var(--button-text);
@@ -127,7 +126,7 @@ body {
     background-color: #0056b3;
 }
 
-
+/* Answer Content */
 .answer-content {
     margin-top: 15px;
     padding-top: 10px;
@@ -243,7 +242,7 @@ body.dark-mode .toggle-circle {
     display: none !important;
 }
 
-
+/* Responsiveness: Adjust header and general padding for smaller screens */
 @media (max-width: 600px) {
     .container {
         padding: 10px;
@@ -260,7 +259,7 @@ body.dark-mode .toggle-circle {
     }
 }
 
-
+/* Bookmarks Page Specific Styling */
 #no-bookmarks-message {
     text-align: center;
     font-style: italic;
@@ -268,4 +267,3 @@ body.dark-mode .toggle-circle {
     padding: 40px 0;
     font-size: 1.1em;
 }
-
