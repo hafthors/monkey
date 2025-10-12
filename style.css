@@ -38,7 +38,7 @@ body {
     font-family: sans-serif;
     margin: 0;
     padding: 0;
-    background-color: blue;
+    background-color: light-yellow;
     color: var(--text-color);
     transition: background-color 0.3s, color 0.3s;
     min-height: 100vh;
@@ -92,12 +92,17 @@ body {
     font-size: 1.5em;
     filter: grayscale(100%); /* Default unbookmarked state */
     transition: filter 0.2s;
-    color: yellow;
+   
 }
 
 .bookmark-icon.active {
     filter: none; /* Active bookmark state */
-    color: var(--bookmark-active-color);
+    color: gold; /* Use a color that stands out */
+}
+
+/* Utility Class */
+.hidden {
+    display: none !important;
 }
 
 /* Question/Answer */
@@ -268,5 +273,6 @@ body.dark-mode .toggle-circle {
     padding: 40px 0;
     font-size: 1.1em;
 }
+
 
 
