@@ -1,3 +1,5 @@
+// --- Core Quiz Functionality ---
+
 /**
  * Toggles the visibility of the answer for a specific quiz card.
  * @param {HTMLElement} buttonElement - The button that was clicked.
@@ -244,5 +246,3 @@ document.addEventListener('DOMContentLoaded', () => {
         renderBookmarksPage();
     }
 });
-
-
