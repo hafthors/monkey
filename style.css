@@ -1,0 +1,268 @@
+:root {
+    /* Default (Light) theme variables */
+    --background-color: #f0f0f0;
+    --card-background: #ffffff;
+    --text-color: #333;
+    --header-background: #007bff;
+    --header-text: white;
+    --tag-background: #e9ecef;
+    --tag-text: #6c757d;
+    --button-background: #007bff;
+    --button-text: white;
+    --toggle-off: #ccc;
+    --toggle-on: #28a745;
+    --bookmark-active-color: gold;
+    --nav-background: #ffffff;
+    --nav-icon-color: #6c757d;
+    --nav-active-color: #007bff;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --background-color: #1a1a1a;
+    --card-background: #2c2c2c;
+    --text-color: #f0f0f0;
+    --header-background: #495057;
+    --header-text: #f0f0f0;
+    --tag-background: #495057;
+    --tag-text: #ccc;
+    --button-background: #6c757d;
+    --button-text: white;
+    --nav-background: #2c2c2c;
+    --nav-icon-color: #ccc;
+    --nav-active-color: #007bff;
+}
+
+/* Base Styles and Responsiveness */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    padding-bottom: 80px; /* Space for fixed footer */
+}
+
+/* Header */
+#pageTitle {
+    background-color: var(--header-background);
+    color: var(--header-text);
+    padding: 15px 20px;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#pageTitle img {
+    display: block;
+    margin: 10px auto 0;
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+/* Quiz Card Styling */
+.quiz-card {
+    background-color: var(--card-background);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+/* Bookmark Icon */
+.bookmark-icon {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+    font-size: 1.5em;
+    filter: grayscale(100%); /* Default unbookmarked state */
+    transition: filter 0.2s;
+}
+
+.bookmark-icon.active {
+    filter: none; /* Active bookmark state */
+    color: var(--bookmark-active-color);
+}
+
+/* Question/Answer */
+.question {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.answer {
+    margin-bottom: 15px;
+}
+
+/* Show Answer Button */
+.show-answer-btn {
+    background-color: var(--button-background);
+    color: var(--button-text);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.show-answer-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Answer Content */
+.answer-content {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    font-style: italic;
+    color: var(--text-color);
+    display: none; /* Hidden by default */
+}
+
+/* Tags */
+.tags {
+    margin-top: 15px;
+}
+
+.tag {
+    display: inline-block;
+    background-color: var(--tag-background);
+    color: var(--tag-text);
+    padding: 5px 10px;
+    margin-right: 5px;
+    border-radius: 4px;
+    font-size: 0.8em;
+}
+
+/* Footer Navigation */
+.footer-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--nav-background);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-around;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 5px 0;
+}
+
+.nav-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--nav-icon-color);
+    font-size: 0.8em;
+    padding: 5px;
+    transition: color 0.3s;
+}
+
+.nav-button img {
+    filter: invert(40%); /* Basic icon color adjustment */
+}
+
+body.dark-mode .nav-button img {
+    filter: invert(80%); /* Invert more for dark mode */
+}
+
+.nav-button.active {
+    color: var(--nav-active-color);
+}
+
+.nav-button.active img {
+    filter: invert(10%) sepia(80%) saturate(700%) hue-rotate(190deg) brightness(95%); /* A blue filter for active icon */
+}
+
+/* Dark Mode Toggle Styles (optional) */
+.toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background-color: var(--card-background);
+    border-radius: 12px;
+    margin-top: 20px;
+}
+
+.toggle {
+    width: 40px;
+    height: 20px;
+    background-color: var(--toggle-off);
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.toggle-circle {
+    width: 18px;
+    height: 18px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    transition: transform 0.3s;
+}
+
+body.dark-mode .toggle {
+    background-color: var(--toggle-on);
+}
+
+body.dark-mode .toggle-circle {
+    transform: translateX(20px);
+}
+
+/* Utility Class */
+.hidden {
+    display: none !important;
+}
+
+/* Responsiveness: Adjust header and general padding for smaller screens */
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+        padding-bottom: 70px;
+    }
+
+    #pageTitle {
+        font-size: 1.3em;
+        padding: 10px;
+    }
+
+    .quiz-card {
+        padding: 15px;
+    }
+}
+
+/* Bookmarks Page Specific Styling */
+#no-bookmarks-message {
+    text-align: center;
+    font-style: italic;
+    color: var(--text-color);
+    padding: 40px 0;
+    font-size: 1.1em;
+}
