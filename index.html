@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script> <title>Harry Potter Quiz</title>
+</head>
+
+<body>
+    <div class="container">
+        <header id="pageTitle">Harry Potter Quiz
+            <img src="unnamed.png" alt="Harry Potter" width="300" height="300">
+        </header>
+
+        <main id="homePage" class="page active">
+
+            <div class="quiz-card" data-id="1">
+                <span class="bookmark-icon" onclick="toggleBookmark(this)">🔖</span>
+                <div class="question">Question?</div>
+                <div class="answer">What is the name of the school that Harry Potter attends?</div>
+                <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Answer</button>
+                <div class="answer-content">Hogwarts School of Witchcraft and Wizardry.</div>
+                <div class="tags">
+                    <span class="tag">Harry Potter</span>
+                    <span class="tag">Hogwarts</span>
+                    <span class="tag">Fiction</span>
+                </div>
+            </div>
+
+            <div class="quiz-card" data-id="2">
+                <span class="bookmark-icon" onclick="toggleBookmark(this)">🔖</span>
+                <div class="question">Question?</div>
+                <div class="answer">Who is Harry Potter's best friend throughout the series?</div>
+                <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Answer</button>
+                <div class="answer-content">Ron Weasley</div>
+                <div class="tags">
+                    <span class="tag">Gryffindor</span>
+                    <span class="tag">Characters</span>
+                    <span class="tag">Friends</span>
+                </div>
+            </div>
+
+            <div class="quiz-card" data-id="3">
+                <span class="bookmark-icon" onclick="toggleBookmark(this)">🔖</span>
+                <div class="question">Question?</div>
+                <div class="answer">What is the name of the lightning bolt-shaped scar on Harry Potter's forehead?</div>
+                <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Answer</button>
+                <div class="answer-content">The Dark Mark</div>
+                <div class="tags">
+                    <span class="tag">Harry Potter</span>
+                    <span class="tag">Symbolism</span>
+                    <span class="tag">Scar</span>
+                </div>
+            </div>
+
+            <div class="quiz-card" data-id="4">
+                <span class="bookmark-icon" onclick="toggleBookmark(this)">🔖</span>
+                <div class="question">Question?</div>
+                <div class="answer">Which magical creature guards the entrance to the Gryffindor common room?</div>
+                <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Answer</button>
+                <div class="answer-content">The Fat Lady</div>
+                <div class="tags">
+                    <span class="tag">Harry Potter</span>
+                    <span class="tag">Creatures</span>
+                    <span class="tag">Gryffindor</span>
+                </div>
+            </div>
+            
+            <div class="toggle-container">
+                <span>Dark Mode</span>
+                <div class="toggle" onclick="toggleDarkMode()">
+                    <div class="toggle-circle"></div>
+                </div>
+            </div>
+
+        </main>
+        </div>
+
+    <footer class="footer-nav">
+        <nav class="nav-container">
+            <a href="index.html" class="nav-button active" aria-label="navigates to home page">
+                <img src="house.svg" width="24" height="24" alt="Home Icon">
+                <span>Home</span>
+            </a>
+            <a href="bookmarks.html" class="nav-button" aria-label="navigates to category bookmarks">
+                <img src="bookmark.svg" width="24" height="24" alt="Bookmarks Icon">
+                <span>Bookmarks</span>
+            </a>
+            <a href="profile.html" class="nav-button" aria-label="navigates to profile page">
+                <img src="user-pen.svg" width="24" height="24" alt="Profile Icon">
+                <span>Profile</span>
+            </a>
+        </nav>
+    </footer>
+
+    <template id="quiz-card-template">
+        <div class="quiz-card" data-id="">
+            <span class="bookmark-icon" onclick="toggleBookmark(this)">🔖</span>
+            <div class="question">Question?</div>
+            <div class="answer"></div>
+            <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Answer</button>
+            <div class="answer-content"></div>
+            <div class="tags">
+                <span class="tag">User Added</span>
+            </div>
+        </div>
+    </template>
+
+</body>
+</html>
