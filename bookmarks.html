@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+     <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -8,38 +9,36 @@
 
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script> </head>
-</head>
 
-<body class="app app--bookmarks">
+<body>
+    <div class="container">
+        <header id="pageTitle">Bookmarks</header>
 
-    <header class="app-header">
-        <img src="Gemini_harrypotter.png" alt="Harry Potter" width="300" height="300">
-        <br>
-    </header>
-
-    <br>>
- <br>
-
-    <body>
-  
-    <div class="card">
-        <h2>My Bookmarks</h2>
-
-         <main id="bookmarksPage" class="page active">
+        <main id="bookmarksPage" class="page active">
             <p id="no-bookmarks-message" class="hidden">You haven't bookmarked any questions yet! 🤔</p>
-        </main><div class="question-list" id="bookmarkedQuestions">
-            <div class="empty-state">
-                 <img src="bookmark.svg" width="8" height="" alt="Bookmarks Icon">
-               
-                <p>No bookmarks yet.<br>Click the bookmark button to save questions!</p>
-            </div>
+        </main>
+
         </div>
-        <button class="btn btn-clear" onclick="clearAllBookmarks()" style="display: none;" id="clearBtn">Clear
-            All Bookmarks</button>
-    </div>
-    </div>
-    <br>
-       
+
+    <footer class="footer-nav">
+        <nav class="nav-container">
+            <a href="index.html" class="nav-button" aria-label="navigates to home page">
+                <img src="house.svg" width="24" height="24" alt="Home Icon">
+                <span>Home</span>
+            </a>
+            <a href="bookmarks.html" class="nav-button active" aria-label="navigates to category bookmarks">
+                <img src="bookmark.svg" width="24" height="24" alt="Bookmarks Icon">
+                <span>Bookmarks</span>
+            </a>
+            <a href="profile.html" class="nav-button" aria-label="navigates to profile page">
+                <img src="user-pen.svg" width="24" height="24" alt="Profile Icon">
+                <span>Profile</span>
+            </a>
+        </nav>
+    </footer>
+
+</body>
+</html>
 
 
 
