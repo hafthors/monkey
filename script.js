@@ -1,5 +1,3 @@
-// --- Core Quiz Functionality ---
-
 /**
  * Toggles the visibility of the answer for a specific quiz card.
  * @param {HTMLElement} buttonElement - The button that was clicked.
@@ -27,6 +25,13 @@ function toggleDarkMode() {
     // Save preference to localStorage
     const isDarkMode = document.body.classList.contains('dark-mode');
     localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
+    
+    // Visually update the toggle switch (if it's present on the page)
+    const toggleCircle = document.querySelector('.toggle-circle');
+    if (toggleCircle) {
+        // Optional: The CSS handles the visual update based on the body class, 
+        // but this ensures the JS logic is self-contained.
+    }
 }
 
 // Function to apply saved dark mode preference on page load
@@ -36,139 +41,127 @@ function loadDarkModePreference() {
     }
 }
 
+
 // --- Bookmark Functionality ---
 
 // Key for localStorage
-const BOOKMARKED_CARDS_KEY = 'bookmarkedQuizCards';
+const BOOKMARKS_STORAGE_KEY = 'quizAppBookmarks';
 
 /**
- * Gets the current array of bookmarked card HTML strings from localStorage.
- * @returns {Array<string>} An array of bookmarked card HTML strings.
+ * Gets the current set of bookmarked card IDs from localStorage.
+ * @returns {Set<string>} A Set of bookmarked card IDs.
  */
-function getBookmarkedCards() {
-    const bookmarkedCards = localStorage.getItem(BOOKMARKED_CARDS_KEY);
-    try {
-        return bookmarkedCards ? JSON.parse(bookmarkedCards) : [];
-    } catch (e) {
-        console.error("Error parsing bookmarked cards from localStorage:", e);
-        return [];
-    }
+function getBookmarks() {
+    const bookmarkedIds = localStorage.getItem(BOOKMARKS_STORAGE_KEY);
+    return bookmarkedIds ? new Set(JSON.parse(bookmarkedIds)) : new Set();
 }
 
 /**
- * Saves the array of bookmarked card HTML strings back to localStorage.
- * @param {Array<string>} cards - The array of card HTML strings.
+ * Saves the Set of bookmarked IDs back to localStorage.
+ * @param {Set<string>} bookmarks - The Set of bookmarked card IDs.
  */
-function saveBookmarkedCards(cards) {
-    localStorage.setItem(BOOKMARKED_CARDS_KEY, JSON.stringify(cards));
+function saveBookmarks(bookmarks) {
+    localStorage.setItem(BOOKMARKS_STORAGE_KEY, JSON.stringify(Array.from(bookmarks)));
 }
 
 /**
- * Toggles the bookmark state for a quiz card and saves/removes it from storage.
+ * Toggles the bookmark state for a quiz card.
  * @param {HTMLElement} iconElement - The bookmark icon that was clicked.
  */
 function toggleBookmark(iconElement) {
     const card = iconElement.closest('.quiz-card');
     const cardId = card.dataset.id;
-    let bookmarkedCardsHTML = getBookmarkedCards();
+    const bookmarks = getBookmarks();
     
+    // Toggle 'active' class on the icon
     iconElement.classList.toggle('active');
     
     if (iconElement.classList.contains('active')) {
-        // --- ADD BOOKMARK ---
-        
-        // 1. Create a clean clone of the card for storage
-        const cardClone = card.cloneNode(true);
-        // Ensure the answer is hidden and button is reset for the stored version
-        cardClone.querySelector('.answer-content').style.display = 'none';
-        cardClone.querySelector('.show-answer-btn').textContent = 'Show Answer';
-        
-        // 2. Check if already bookmarked (prevent duplicates)
-        const isAlreadyBookmarked = bookmarkedCardsHTML.some(html => {
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-            return tempDiv.querySelector('.quiz-card')?.dataset.id === cardId;
-        });
-
-        // 3. Add to array if new
-        if (!isAlreadyBookmarked) {
-            bookmarkedCardsHTML.push(cardClone.outerHTML);
-        }
-
+        // Add bookmark
+        bookmarks.add(cardId);
     } else {
-        // --- REMOVE BOOKMARK ---
+        // Remove bookmark
+        bookmarks.delete(cardId);
         
-        // 1. Filter out the card with the matching ID
-        bookmarkedCardsHTML = bookmarkedCardsHTML.filter(html => {
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-            return tempDiv.querySelector('.quiz-card')?.dataset.id !== cardId;
-        });
-
-        // 2. If on the bookmarks page, physically remove the card from the DOM
+        // If on the bookmarks page, remove the card entirely
         if (document.getElementById('bookmarksPage')) {
             card.remove();
+            renderBookmarksPage(); // Re-check if any are left
         }
     }
     
-    // 3. Save the updated array
-    saveBookmarkedCards(bookmarkedCardsHTML);
-
-    // 4. Re-render the bookmarks page to update the "no bookmarks" message
-    if (document.getElementById('bookmarksPage')) {
-        renderBookmarksPage(true); // Pass true to only check the message state
-    }
+    saveBookmarks(bookmarks);
 }
 
 /**
  * Initializes the bookmark icons on the main page based on localStorage.
  */
 function initializeBookmarksOnIndex() {
-    const bookmarkedCardsHTML = getBookmarkedCards();
-    const bookmarkedIds = new Set(bookmarkedCardsHTML.map(html => {
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = html;
-        return tempDiv.querySelector('.quiz-card')?.dataset.id;
-    }).filter(id => id)); // Get a Set of all bookmarked IDs
-    
-    document.querySelectorAll('#homePage .quiz-card').forEach(card => {
+    const bookmarks = getBookmarks();
+    document.querySelectorAll('.quiz-card').forEach(card => {
         const cardId = card.dataset.id;
         const icon = card.querySelector('.bookmark-icon');
         
-        if (icon && bookmarkedIds.has(cardId)) {
+        if (bookmarks.has(cardId)) {
             icon.classList.add('active');
-        } else if (icon) {
+        } else {
             icon.classList.remove('active');
         }
     });
 }
 
+
 /**
- * Renders the bookmarked cards on the dedicated bookmarks page.
- * @param {boolean} checkOnly - If true, only checks and updates the "no bookmarks" message.
+ * Renders the bookmarked cards on the bookmarks page.
  */
-function renderBookmarksPage(checkOnly = false) {
+function renderBookmarksPage() {
     const bookmarksPage = document.getElementById('bookmarksPage');
-    if (!bookmarksPage) return; // Exit if not on the bookmarks page
-    
-    const bookmarkedCardsHTML = getBookmarkedCards();
+    const bookmarks = getBookmarks();
     const noBookmarksMessage = document.getElementById('no-bookmarks-message');
 
-    if (bookmarkedCardsHTML.length === 0) {
-        if (noBookmarksMessage) noBookmarksMessage.classList.remove('hidden');
-        // Clear all cards if we have 0 bookmarks (in case a card was removed)
-        if (!checkOnly) { 
-            bookmarksPage.querySelectorAll('.quiz-card').forEach(card => card.remove());
-        }
+    // Clear existing content
+    bookmarksPage.querySelectorAll('.quiz-card').forEach(card => card.remove());
+
+    if (bookmarks.size === 0) {
+        noBookmarksMessage.classList.remove('hidden');
         return;
     }
     
-    if (noBookmarksMessage) noBookmarksMessage.classList.add('hidden');
+    noBookmarksMessage.classList.add('hidden');
 
-    if (checkOnly) return;
-
-    // Clear and rebuild the list to handle dynamic changes
-    bookmarksPage.innerHTML = '';
+    // Retrieve all cards from the main page (we need all card data)
+    // In a real app, this data would come from a central JSON/API, 
+    // but here we rely on the main page structure.
+    const allQuizCardsData = Array.from(document.querySelectorAll('#homePage .quiz-card')).map(card => {
+        // Clone the card and strip elements we don't want to store (like the answer-content display state)
+        const clone = card.cloneNode(true);
+        clone.querySelector('.answer-content').style.display = 'none';
+        clone.querySelector('.show-answer-btn').textContent = 'Show Answer';
+        return {
+            id: card.dataset.id,
+            html: clone.outerHTML
+        };
+    });
+    
+    // Simplified approach: If we were on index.html, we'd clone cards directly.
+    // Since we're on bookmarks.html, we need to load or generate the HTML.
+    
+    // **Alternative and easier approach for a small app:**
+    // On the Bookmarks page, we'll try to find the full card data. 
+    // For a simple two-page structure, we'll store the full HTML of bookmarked cards.
+    // For a scalable app, you'd store the ID and load the data. 
+    
+    // For this demonstration, let's clone the cards from the index page's template 
+    // by storing/retrieving the full HTML on bookmark.
+    
+    // **Since we can't reliably load index.html's DOM:**
+    // We'll require all cards to be defined in a master array of objects in this JS file.
+    // However, to stick to the original HTML structure as much as possible, let's use the
+    // "store the full card HTML" approach for simplicity in a small project.
+    
+    // Let's refactor: The `toggleBookmark` should store/remove the *card's HTML* // in addition to the ID, so we can display it on the bookmarks page.
+    
+    const bookmarkedCardsHTML = JSON.parse(localStorage.getItem('bookmarkedCardsHTML') || '[]');
     
     bookmarkedCardsHTML.forEach(cardHTML => {
         // Create a temporary element to safely inject the HTML
@@ -176,16 +169,63 @@ function renderBookmarksPage(checkOnly = false) {
         tempDiv.innerHTML = cardHTML;
         const card = tempDiv.firstElementChild;
         
-        // Ensure the bookmark is set to active and answer is hidden (redundant, but safe)
+        // Ensure the bookmark is set to active and answer is hidden
         const icon = card.querySelector('.bookmark-icon');
-        if (icon) icon.classList.add('active');
-        const answerContent = card.querySelector('.answer-content');
-        if (answerContent) answerContent.style.display = 'none';
-        const showBtn = card.querySelector('.show-answer-btn');
-        if (showBtn) showBtn.textContent = 'Show Answer';
-        
+        icon.classList.add('active');
+        card.querySelector('.answer-content').style.display = 'none';
+        card.querySelector('.show-answer-btn').textContent = 'Show Answer';
+
         bookmarksPage.appendChild(card);
     });
+}
+
+/**
+ * NEW: Toggles the bookmark state and updates HTML storage.
+ * @param {HTMLElement} iconElement - The bookmark icon that was clicked.
+ */
+function toggleBookmark(iconElement) {
+    const card = iconElement.closest('.quiz-card');
+    const cardId = card.dataset.id;
+    let bookmarkedCardsHTML = JSON.parse(localStorage.getItem('bookmarkedCardsHTML') || '[]');
+    
+    iconElement.classList.toggle('active');
+    
+    if (iconElement.classList.contains('active')) {
+        // Add bookmark: Store the cleaned HTML (answer hidden, button text set)
+        const cardClone = card.cloneNode(true);
+        cardClone.querySelector('.answer-content').style.display = 'none';
+        cardClone.querySelector('.show-answer-btn').textContent = 'Show Answer';
+        
+        // Prevent duplicate storage
+        const isAlreadyBookmarked = bookmarkedCardsHTML.some(html => 
+            new DOMParser().parseFromString(html, 'text/html').body.querySelector('.quiz-card').dataset.id === cardId
+        );
+
+        if (!isAlreadyBookmarked) {
+            bookmarkedCardsHTML.push(cardClone.outerHTML);
+        }
+
+    } else {
+        // Remove bookmark
+        bookmarkedCardsHTML = bookmarkedCardsHTML.filter(html => 
+            new DOMParser().parseFromString(html, 'text/html').body.querySelector('.quiz-card').dataset.id !== cardId
+        );
+
+        // If on the bookmarks page, remove the card from the DOM
+        if (document.getElementById('bookmarksPage')) {
+            card.remove();
+            // We re-render to check for the 'no bookmarks' message
+            document.getElementById('bookmarksPage').innerHTML = ''; // Quick clear
+            renderBookmarksPage(); 
+        }
+    }
+    
+    localStorage.setItem('bookmarkedCardsHTML', JSON.stringify(bookmarkedCardsHTML));
+
+    // After updating storage, re-initialize icons on index page to sync states
+    if (!document.getElementById('bookmarksPage')) {
+        initializeBookmarksOnIndex();
+    }
 }
 
 
@@ -193,10 +233,9 @@ function renderBookmarksPage(checkOnly = false) {
 
 // Event listener for when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Load Dark Mode preference
     loadDarkModePreference();
     
-    // 2. Initialize page-specific functionality
+    // Check which page we are on
     if (document.getElementById('homePage')) {
         // We are on index.html
         initializeBookmarksOnIndex();
@@ -205,3 +244,5 @@ document.addEventListener('DOMContentLoaded', () => {
         renderBookmarksPage();
     }
 });
+
+
