@@ -38,11 +38,11 @@ body {
     font-family: sans-serif;
     margin: 0;
     padding: 0;
-    background-color: var(--background-color);
+    background-color: blue;
     color: var(--text-color);
     transition: background-color 0.3s, color 0.3s;
     min-height: 100vh;
-    background-color:blue;
+    
 }
 
 .container {
@@ -92,6 +92,7 @@ body {
     font-size: 1.5em;
     filter: grayscale(100%); /* Default unbookmarked state */
     transition: filter 0.2s;
+    color: yellow;
 }
 
 .bookmark-icon.active {
@@ -267,4 +268,5 @@ body.dark-mode .toggle-circle {
     padding: 40px 0;
     font-size: 1.1em;
 }
+
 
