@@ -39,32 +39,50 @@
     </main>
     <br>
     <br>
-    
+
+
+      <div class="toggle-container">
+                <span>Dark Mode</span>
+                <div class="toggle" onclick="toggleDarkMode()">
+                    <div class="toggle-circle"></div>
+                </div>
+            </div>
+
+        </main>
+        </div>
+
     <footer class="footer-nav">
         <nav class="nav-container">
-
-            <!-- Home Button (INACTIVE) -->
-            <a href="index.html" class="nav-button" aria-label="navigates to home page">
+            <a href="index.html" class="nav-button active" aria-label="navigates to home page">
                 <img src="house.svg" width="24" height="24" alt="Home Icon">
                 <span>Home</span>
             </a>
-
-            <!-- Bookmarks Button (ACTIVE) -->
-            <a href="bookmarks.html" class="nav-button active" aria-label="navigates to category bookmarks">
+            <a href="bookmarks.html" class="nav-button" aria-label="navigates to category bookmarks">
                 <img src="bookmark.svg" width="24" height="24" alt="Bookmarks Icon">
                 <span>Bookmarks</span>
             </a>
-
-            <!-- Profile Button (INACTIVE) -->
             <a href="profile.html" class="nav-button" aria-label="navigates to profile page">
                 <img src="user-pen.svg" width="24" height="24" alt="Profile Icon">
                 <span>Profile</span>
             </a>
-
         </nav>
     </footer>
 
-
+    <template id="quiz-card-template">
+        <div class="quiz-card" data-id="">
+            <span class="bookmark-icon" onclick="toggleBookmark(this)"></span>
+            <div class="question">Question?</div>
+            <div class="answer"></div>
+            <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Answer</button>
+            <div class="answer-content"></div>
+            <div class="tags">
+                <span class="tag">User Added</span>
+            </div>
+        </div>
+    </template>
 
 </body>
 </html>
+
+
+  
